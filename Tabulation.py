@@ -1,13 +1,4 @@
 import numpy as np
-from DataReader import *
-
-
-def start():
-    items, capacity = readDataFile("data_19")
-    value, taken = tabulation(items, capacity)
-
-    print(check_solution(capacity, items, taken), end='')
-    print(taken_items(items, taken))
 
 
 def fillTable(table, items, capacity):
@@ -40,6 +31,3 @@ def tabulation(items, capacity):
             i -= 1
 
     return table[len(items)-1][capacity], taken
-
-
-start()

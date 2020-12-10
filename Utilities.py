@@ -24,7 +24,7 @@ def get_total_weight(items, taken):
 
 
 # Peso restante en la mochila
-def get_left_weight(capacity, taken, items):
+def get_left_weight(capacity, items, taken):
     return capacity - get_total_weight(items, taken)
 
 
