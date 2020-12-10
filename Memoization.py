@@ -1,11 +1,13 @@
 from Utilities import *
 from DataReader import *
 import numpy as np
+import sys
 
+sys.setrecursionlimit(999999)
 
 
 def start():
-    items, capacity = readDataFile("data_4")
+    items, capacity = readDataFile("data_50")
     value, taken = memoization(items, capacity)
 
     print(check_solution(capacity, items, taken), end='')
