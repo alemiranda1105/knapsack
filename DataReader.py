@@ -3,12 +3,12 @@ import os
 
 
 def readAllFiles(path):
-    files = os.listdir(path)
-    items = []
-    for f in files:
-        items.append(readDataFile(f))
+    d = os.listdir(path)
+    files = []
+    for f in d:
+        files.append(path + f)
 
-    return items
+    return files
 
 
 def readFile(file):
