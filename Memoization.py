@@ -1,4 +1,3 @@
-from Utilities import *
 from DataReader import *
 import numpy as np
 import sys
@@ -45,7 +44,6 @@ def memoization(items, capacity):
             i -= 1
 
     return value, taken
-
 
 
 start()

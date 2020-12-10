@@ -5,7 +5,7 @@ from Utilities import *
 
 
 def start():
-    items, capacity = readDataFile("data_10000")
+    items, capacity = readDataFile("data_4")
     value, taken = solve_greedy(items, capacity)
 
     print(check_solution(capacity, items, taken), end='')
