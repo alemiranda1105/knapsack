@@ -1,5 +1,9 @@
-from Utilities import *
 import random
+from collections import namedtuple
+
+
+# Tupla auxiliar don de guardamos el ratio value/weight
+Ratio = namedtuple("Ratio", ['index', 'vw'])
 
 
 def quickSort(items, inDesiredOrder):
@@ -42,22 +46,18 @@ def solve_greedy(items, capacity):
     value = 0
     weight = 0
     taken = [0] * len(items)
-    vw = [0] * len(items)
+    rat = []
 
     # Calculo del ratio value/weight
     for item in items:
-        vw[item.index] = item.value / item.weight
+        rat.append(Ratio(item.index, item.value/item.weight))
 
-    while weight < capacity:
-        if len(vw) > 0:
-            best = vw.index(max(vw))
-            item = items[best]
-            if item.weight + weight <= capacity:
-                taken[item.index] = 1
-                value += item.value
-                weight += item.weight
-            vw.remove(max(vw))
-        else:
-            break
+    quickSort(rat, lambda x, y: x.vw > y.vw)
+    for r in rat:
+        item = items[r.index]
+        if item.weight + weight <= capacity:
+            taken[item.index] = 1
+            weight += item.weight
+            value += item.value
 
     return value, taken
