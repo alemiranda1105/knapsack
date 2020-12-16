@@ -27,60 +27,19 @@ def args_creator():
     return parser.parse_args()
 
 
-def withDirectory(files, args):
+def withDirectory(files):
+    t = time.time()
     for f in files:
-        items, capacity = dr.readFile(f)
-        t0 = 0
-        t1 = 0
-        print("---------- File:", f, "----------")
-        if args.greedy:
-            print("Solving it with Greedy")
-            t0 = time.time()
-            value, taken = solve_greedy(items, capacity)
-            t1 = time.time()
-        elif args.memoization:
-            print("Solving it with Memoization")
-            t0 = time.time()
-            value, taken = memoization(items, capacity)
-            t1 = time.time()
-        elif args.tabulation:
-            print("Solving it with Tabulation")
-            t0 = time.time()
-            value, taken = tabulation(items, capacity)
-            t1 = time.time()
-        else:
-            print("Introduzca un metodo, por favor")
-            exit(-1)
-
-        if args.showBenefit:
-            print("Benefit =", get_total_value(items, taken))
-        if args.showRoom:
-            print("Room =", get_left_weight(capacity, items, taken))
-        if args.showTaken:
-            print("Take items =", taken_items(items, taken))
-        if args.timer:
-            t = (t1 - t0)
-            print("Time =", round(t, 3), "s")
+        print("----------" + f + "----------")
+        withFile(f)
+    print("<<<< END >>>>")
+    t = time.time() - t
+    print("Total execution time = ", t, "s")
     exit(0)
 
 
-if __name__ == '__main__':
-    args = args_creator()
-    items = None
-    capacity = 0
-    if args.directory != "":
-        files = dr.readAllFiles(args.directory)
-        withDirectory(files, args)
-    elif args.file != "":
-        items, capacity = dr.readFile(args.file)
-    else:
-        print("Introduzca un fichero, por favor")
-        exit(-1)
-
-    if len(items) <= 0:
-        print("Error en la lectura del archivo")
-        exit(-1)
-
+def withFile(file):
+    items, capacity = dr.readFile(file)
     t0 = 0
     t1 = 0
     if args.greedy:
@@ -111,3 +70,15 @@ if __name__ == '__main__':
     if args.timer:
         t = (t1 - t0)
         print("Time =", round(t, 3), "s")
+
+
+if __name__ == '__main__':
+    args = args_creator()
+    if args.directory != "":
+        files = dr.readAllFiles(args.directory)
+        withDirectory(files)
+    elif args.file != "":
+        withFile(args.file)
+    else:
+        print("Introduzca un fichero, por favor")
+        exit(-1)
