@@ -8,30 +8,39 @@ def memoization(items, capacity):
     n = len(items)
     w = capacity
     taken = [0] * len(items)
-    mem = np.zeros((n+1, w+1))
+    mem2 = {}
 
     def solved(items, w, n):
         if n == 0 or w == 0:
             return 0
-        if mem[n][w] != 0:
-            return mem[n][w]
 
-        item = items[n-1]
-        if item.weight <= w:
-            mem[n][w] = max(item.value + solved(items, w - item.weight, n - 1), solved(items, w, n - 1))
+        key = str(str(n) + ": " + str(w))
+        if key in mem2:
+            return mem2.get(key)
         else:
-            mem[n][w] = solved(items, w, n - 1)
-        return mem[n][w]
+            item = items[n-1]
+            if item.weight <= w:
+                mem2[key] = max(item.value + solved(items, w - item.weight, n - 1), solved(items, w, n - 1))
+            else:
+                mem2[key] = solved(items, w, n - 1)
+            return mem2[key]
 
     value = solved(items, w, n)
     i = len(items)
     k = capacity
+    key1 = str(str(i) + ": " + str(k))
+    key2 = str(str(i-1) + ": " + str(k))
     while i > 0 and k > 0:
-        if mem[i][k] != mem[i-1][k]:
-            taken[i-1] = 1
-            i -= 1
-            k -= items[i].weight
+        if key1 in mem2 and key2 in mem2:
+            if mem2[key1] != mem2[key2]:
+                taken[i-1] = 1
+                i -= 1
+                k -= items[i].weight
+            else:
+                i -= 1
         else:
             i -= 1
+        key1 = str(str(i) + ": " + str(k))
+        key2 = str(str(i - 1) + ": " + str(k))
 
     return value, taken
